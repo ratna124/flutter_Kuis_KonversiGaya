@@ -18,7 +18,7 @@ class Result extends StatelessWidget {
       children: [
         Text("Hasil",style: TextStyle(fontSize: 20),),
         Text(
-        result.toStringAsFixed(1),
+        result.toStringAsFixed(3),
         style: TextStyle(fontSize: 30),
         )
       ],

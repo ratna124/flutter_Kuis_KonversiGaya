@@ -4,6 +4,7 @@ import 'widgets/result.dart'; //import agar yang ada pada kelas result dapat dig
 import 'widgets/convert.dart'; //import agar yang ada pada kelas convert dapat digunakan pada main
 import 'widgets/dropdown.dart';
 import 'widgets/riwayat.dart';
+import 'widgets/dropdownBefore.dart';
 
 void main() {
   runApp(MyApp());
@@ -37,21 +38,38 @@ class _MyHomePageState extends State<MyHomePage> {
   double _inputUser = 0; //variabel untuk nilai yang akan diinputkan oleh user
   double _mili = 0; //variabel untuk menyimpan meganewton
   double _kilo = 0; //variabel untuk menyimpan kilonewton
+  double _nano = 0;
   final inputController = TextEditingController();
-  String _newValue = "Milinewton (MN)";
+  String _newValue = "Milinewton";
+  String _newValueFrom = "Milinewton";
   double _result = 0; //variabel untuk menyimpan hasil dari perhitungan
 
-  void perhitunganGaya() {
-    //fungsi untuk perhitungan gaya
+  void perhitunganGaya() { //fungsi untuk perhitungan gaya
     setState(() {
-      if (_newValue == "Milinewton (MN)") //kondisi yang akan diproses jika memilih milinewton
-        _result = _inputUser * 1000;  //perhitungan untuk mendapatkan hasil milinewton
-      else if (_newValue == "Kilonewton (kN)") //kondisi yang akan diproses jika memilih kilonewton
-        _result = _inputUser * 0.001; //perhitungan untuk mendapatkan hasil kilonewton
-      else
-        _result = (_inputUser * 1000000000); //perhitungan untuk mendapatkan hasil nanonewton
+      _inputUser = double.parse(inputController.text); 
+      //milinewton
+      if (_newValueFrom == "Milinewton" && _newValue == "Kilonewton") //kondisi yang akan diproses jika memilih milinewton
+        _result = _inputUser * 0.001; //perhitungan untuk mendapatkan hasil milinewton
+      else if(_newValueFrom == "Milinewton" && _newValue == "Newton")
+        _result = _inputUser * 1; 
+      else if(_newValueFrom == "Milinewton" && _newValue == "Milinewton")
+        _result = _inputUser * 1000; 
+      //kilonewton
+      else if(_newValueFrom == "Kilonewton" && _newValue == "Kilonewton")
+        _result = _inputUser * 0.001; 
+      else if(_newValueFrom == "Kilonewton" && _newValue == "Newton")
+        _result = _inputUser * 1; 
+      else if(_newValueFrom == "Kilonewton" && _newValue == "Milinewton")
+        _result = _inputUser * 1000; 
+      //newton
+      else if(_newValueFrom == "Newton" && _newValue == "Kilonewton")
+        _result = _inputUser * 0.001; 
+      else if(_newValueFrom == "Newton" && _newValue == "Newton")
+        _result = _inputUser * 1; 
+      else if(_newValueFrom == "Newton" && _newValue == "Milinewton")
+        _result = _inputUser * 1000;
     });
-    listViewItem.add("$_newValue : $_result");
+    listViewItem.add("$_newValueFrom > $_newValue : $_result"); //menyimpan value dan hasil perhitungan agar dapat ditampilkan pada riwayat
   }
 
   void dropdownOnChanged(String changeValue) {
@@ -61,9 +79,18 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  List<String> listViewItem = List<String>();
+  void dropdownOnChangedFrom(String changeValue) {
+    setState(() {
+      _newValueFrom = changeValue;
+      perhitunganGaya();
+    });
+  }
 
-  var listItem = ["Milinewton (MN)", "Kilonewton (kN)", "Nanonewton (nN)"];
+  List<String> listViewItem = List<String>();
+  List<String> listViewFrom = List<String>();
+
+  var listItem = ["Milinewton", "Kilonewton", "Newton"]; //list
+  var listFrom = ["Milinewton", "Kilonewton", "Newton"];
 
   @override
   Widget build(BuildContext context) {
@@ -90,13 +117,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ],
             ),
-            Row(
+            Row( //membuat baris
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                DropdownConversi(
-                    listItem: listItem,
-                    newValue: _newValue,
-                    dropdownOnChanged: dropdownOnChanged),
+                DropdownConversiBefore(
+                    listFrom: listFrom,
+                    newValueFrom: _newValueFrom,
+                    dropdownOnChangedFrom: dropdownOnChangedFrom),
                 DropdownConversi(
                     listItem: listItem,
                     newValue: _newValue,
@@ -105,10 +132,10 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Result(result: _result),
             Container(
-              margin: EdgeInsets.only(top: 10, bottom: 10),
+              margin: EdgeInsets.only(top: 10, bottom: 10), //mengatur margin
               child: Text(
                 "Riwayat Konversi",
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(fontSize: 20), //mengatur ukuran text
               ),
               alignment: Alignment.bottomLeft  //meletakkan text pada posisi kiri
             ),
