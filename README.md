@@ -1,4 +1,11 @@
 # konversi_gaya
+HASIL :
+![plot](./Hasil/1.jpg)
+![plot](./Hasil/2.jpg)
+![plot](./Hasil/3.jpg)
+![plot](./Hasil/4.jpg)
+![plot](./Hasil/5.jpg)
+![plot](./Hasil/6.jpg)
 
 A new Flutter project.
 

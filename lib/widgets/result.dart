@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; //import dari main
 
-class Result extends StatelessWidget {
-  const Result({
-    Key key,
-    @required this.result,
-  }) :  super(key: key);
+class Result extends StatelessWidget { //kelas dengan extends stateless
+  const Result({ //konstruktor
+    Key key, //menandakan id
+    @required this.result, //isi parameter dari konstruktor
+  }) :  super(key: key); //menandakan id agar dapat dilempar ke super/parent
 
-   final double result;
+   final double result; //mendeklarasikan variabel dari konstrukor
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class Result extends StatelessWidget {
       children: [
         Text("Hasil",style: TextStyle(fontSize: 20),),
         Text(
-        result.toStringAsFixed(3),
+        result.toStringAsFixed(3), //menampilkan hasil dengan 0 setelah koma ada 3
         style: TextStyle(fontSize: 30),
         )
       ],
